@@ -4,12 +4,17 @@ export class Book {
 
     public title: string,
 
-    public Category: string,
+    public category: string,
 
     public price: number,
 
     public stock: number,
   ) {}
+
+  get isAvailable(): boolean {
+    return this.stock > 0;
+
+  }
 
   public static findById(books: Book[], id: number): Book {
     const book = books.find((book) => book.id === id);

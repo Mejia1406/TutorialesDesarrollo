@@ -6,7 +6,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <% books.forEach(book=> { %>
+                <% viewData.books.forEach(book=> { %>
 
                     <div
                         class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 p-6 border border-gray-200">
@@ -19,7 +19,7 @@
 
                             </h3>
 
-                            <% if(book.stock> 0){ %>
+                            <% if(book.isAvailable){ %>
 
                                 <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full ml-2">
 
@@ -66,7 +66,7 @@
 
                                 <span class="text-gray-600">Price:</span>
 
-                                <span class="font-semibold">$<%= book.price.toLocaleString() %></span>
+                                <span class="font-semibold">$<%= book.price.toLocaleString(undefined, { minimumFractionDigits: 2 }) %></span>
 
                             </div>
 

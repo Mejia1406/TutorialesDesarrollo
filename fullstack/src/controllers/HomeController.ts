@@ -5,7 +5,7 @@ import { Book } from "../models/Book.js";
 export class HomeController {
   static index(req: Request, res: Response): void {
     const viewData: { [key: string]: any } = {};
-    viewData["title"] = "Home";
+    viewData["  "] = "Home";
     res.render("home/index", { viewData: viewData });
   }
 
@@ -21,14 +21,26 @@ export class HomeController {
     res.render("home/contact", { viewData: viewData });
   }
 
-  static Main_Point(req: Request, res: any) {
-    const viewData: any = {};
+  static mainPoint(req: Request, res: Response): void {
+    const viewData: { [key: string]: any } = {};
     viewData["books"] = books;
-    res.render("home/books", viewData);
+    viewData["title"] = "Books";
+    res.render("home/books", { viewData: viewData });
   }
 
-  static show(req: any, res: any) {
-    const book = Book.findById(books, parseInt(req.params.id));
-    res.render("home/show", { book: book });
+  static show(req: Request, res: Response): void {
+    const viewData: { [key: string]: any } = {};
+
+    const id = Number(req.params.id);
+    if (Number.isNaN(id) || id < 1 || id > books.length) {
+        viewData["title"] = "Book Not Found";
+        res.status(404).render("home/error", { viewData: viewData });
+        return;
+    }   
+
+    const book = Book.findById(books, id);
+    viewData["book"] = book;
+    viewData["title"] = book.title;
+    res.render("home/show", { viewData: viewData });
   }
 }
