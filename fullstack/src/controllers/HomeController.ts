@@ -21,7 +21,7 @@ export class HomeController {
     res.render("home/contact", { viewData: viewData });
   }
 
-  static mainPoint(req: Request, res: Response): void {
+  static booksList(req: Request, res: Response): void {
     const viewData: { [key: string]: any } = {};
     viewData["books"] = books;
     viewData["title"] = "Books";
