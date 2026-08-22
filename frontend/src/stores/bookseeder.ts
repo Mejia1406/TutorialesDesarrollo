@@ -1,4 +1,6 @@
-export const bookSeeder = [ 
+import type { BookInterface } from '@/interfaces/BookInterface';
+
+export const bookSeeder: BookInterface[] = [ 
 
   { id: 1, title: 'The Great Gatsby', category: 'Fiction', price: 12.99, stock: 3 }, 
 

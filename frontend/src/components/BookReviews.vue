@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { formatDate } from '@/utils/formatters.js';
 import { ReviewService } from '@/services/ReviewService.js';
 
 const props = defineProps<{
@@ -29,15 +30,6 @@ function submitReview() {
   isSubmitting.value = false;
 }
 
-function formatDate(iso?: string): string {
-  if (!iso) return '';
-
-  return new Date(iso).toLocaleDateString('es-CO', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
 </script>
 <template>
   <div class="space-y-6">

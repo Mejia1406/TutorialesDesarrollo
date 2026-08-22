@@ -1,34 +1,20 @@
 <script setup lang="ts">
 import { BookService } from '@/services/BookService.js';
-import OtherService from '@/services/OtherService.js'; 
+import { formatToCOP } from '@/utils/formatters.js';
 import { ref, watch } from 'vue';
 
 const books = BookService.getBooks();
 const filteredBooks = ref(books); 
 
-// selectors 
-const selectorCategories = OtherService.getUniqueBookCategories(); 
+const selectorCategories = BookService.getUniqueBookCategories(); 
 const selectedCategory = ref(''); 
 
-// functions 
-function formatToCOP(price: number): string { 
-  const formatter = new Intl.NumberFormat('es-CO', { 
-    style: 'currency', 
-    currency: 'COP', 
-    minimumFractionDigits: 0, 
-    maximumFractionDigits: 0, 
-  }); 
-
-  return formatter.format(price).replace(/^\s*\$\s?/, ''); 
-} 
-
-// watchers 
 watch(selectedCategory, (newCategory) => { 
-  if (newCategory) { 
-    filteredBooks.value = books.filter((book) => book.category === newCategory); 
-  } else { 
-    filteredBooks.value = books; 
-  } 
+  if (newCategory) {
+    filteredBooks.value = BookService.getBooksByCategory(newCategory);
+  } else {
+    filteredBooks.value = BookService.getBooks();
+  }
 }); 
 
 </script>
