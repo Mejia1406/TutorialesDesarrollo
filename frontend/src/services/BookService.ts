@@ -1,41 +1,25 @@
 import type { BookInterface } from '@/interfaces/BookInterface';
-import { useBookStore } from '@/stores/bookstore.js';
-import type { CreateBookDTO } from '@/dtos/CreateBookDTO.js'; 
+import type { CreateBookDTO } from '@/dtos/CreateBookDTO.js';
+import axios from 'axios';
 
 export class BookService {
-  static getBooks(): BookInterface[] {
+  private static readonly API_URL = 'http://localhost:3000/api/books';
 
-    return useBookStore().books;
+  public static async getBooks(): Promise<BookInterface[]> {
+    const { data } = await axios.get(this.API_URL);
+
+    return data;
   }
 
-  static createBook(book: CreateBookDTO): void { 
-    const store = useBookStore();
-    const nextId = store.books.length > 0 ? Math.max(...store.books.map((existingBook) => existingBook.id), 0) + 1 : 1;
-    store.books.push({
-      id: nextId,
-      ...book,
-    });
-  } 
+  public static async getBookById(id: number): Promise<BookInterface> {
+    const { data } = await axios.get(`${this.API_URL}/${id}`);
 
-  static removeLastBook(): void {
-    useBookStore().books.pop();
+    return data;
   }
 
-  static getBookById(id: number): BookInterface | undefined {
+  public static async createBook(book: CreateBookDTO): Promise<BookInterface> {
+    const { data } = await axios.post(this.API_URL, book);
 
-    return useBookStore().books.find((book) => book.id === id);
+    return data;
   }
-
-  static getUniqueBookCategories(): string[] { 
-    const books = BookService.getBooks(); 
-    const categories = books.map((book) => book.category); 
-    const uniqueCategories = new Set(categories); 
-
-    return Array.from(uniqueCategories); 
-  } 
-
-  static getBooksByCategory(category: string): BookInterface[] {
-    
-    return useBookStore().books.filter((book) => book.category === category);
-  }
-} 
+}
